@@ -1,6 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Cpp STL</title>
+    <url>/undefined/2022/11/28/Cpp-STL/</url>
+    <content><![CDATA[<h1 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h1><h2 id="顺序容器"><a href="#顺序容器" class="headerlink" title="顺序容器"></a>顺序容器</h2><table>
+<thead>
+<tr>
+<th align="center">容器</th>
+<th>描述</th>
+<th align="center">查询</th>
+<th align="center">插入</th>
+<th align="center">删除</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">vector</td>
+<td>可变大小数组</td>
+<td align="center">$O(1)$</td>
+<td align="center">$O(n)$</td>
+<td align="center">$O(n)$</td>
+</tr>
+<tr>
+<td align="center">deque</td>
+<td>双端队列</td>
+<td align="center">$O(n)$</td>
+<td align="center">$O(1)$</td>
+<td align="center">$O(1)$</td>
+</tr>
+<tr>
+<td align="center">list</td>
+<td>双向链表</td>
+<td align="center">$O(n)$</td>
+<td align="center">$O(1)$</td>
+<td align="center">$O(1)$</td>
+</tr>
+<tr>
+<td align="center">forward_list</td>
+<td>单向列表</td>
+<td align="center">$O(n)$</td>
+<td align="center">$O(1)$</td>
+<td align="center">$O(1)$</td>
+</tr>
+<tr>
+<td align="center">string</td>
+<td>可变大小的字符数组</td>
+<td align="center">$O(1)$</td>
+<td align="center">$O(n)$</td>
+<td align="center">$O(n)$</td>
+</tr>
+<tr>
+<td align="center">array</td>
+<td>固定大小数组</td>
+<td align="center">$O(n)$</td>
+<td align="center">-</td>
+<td align="center">-</td>
+</tr>
+</tbody></table>
+<h2 id="关联容器"><a href="#关联容器" class="headerlink" title="关联容器"></a>关联容器</h2><table>
+<thead>
+<tr>
+<th align="center">容器</th>
+<th>描述</th>
+<th align="center">底层实现</th>
+<th align="center">查询</th>
+<th align="center">插入</th>
+<th align="center">删除</th>
+<th align="center">修改</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">set</td>
+<td>有序集合</td>
+<td align="center">红黑树</td>
+<td align="center">$O(log_n)$</td>
+<td align="center">$O(log_n)$</td>
+<td align="center">$O(log_n)$</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center">multiset</td>
+<td>元素可重复的有序集合</td>
+<td align="center">红黑树</td>
+<td align="center">$O(log_n)$</td>
+<td align="center">$O(log_n)$</td>
+<td align="center">$O(log_n)$</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center">unordered_set</td>
+<td>无序集合</td>
+<td align="center">哈希表</td>
+<td align="center">$O(1)$</td>
+<td align="center">$O(1)$</td>
+<td align="center">$O(1)$</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">map</td>
+<td>有序键值对</td>
+<td align="center">红黑树</td>
+<td align="center">$O(log_n)$</td>
+<td align="center">$O(log_n)$</td>
+<td align="center">$O(log_n)$</td>
+<td align="center">$O(log_n)$</td>
+</tr>
+<tr>
+<td align="center">multimap</td>
+<td>键可重复的有序键值对</td>
+<td align="center">红黑树</td>
+<td align="center">$O(log_n)$</td>
+<td align="center">$O(log_n)$</td>
+<td align="center">$O(log_n)$</td>
+<td align="center">$O(log_n)$</td>
+</tr>
+<tr>
+<td align="center">unordered_map</td>
+<td>无序键值对</td>
+<td align="center">哈希表</td>
+<td align="center">$O(1)$</td>
+<td align="center">$O(1)$</td>
+<td align="center">$O(1)$</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p><strong>Note: STL 中的哈希表是使用开链法避免碰撞的</strong></p>
+<h1 id="容器适配器"><a href="#容器适配器" class="headerlink" title="容器适配器"></a>容器适配器</h1><p>适配器是一种机制，能使某种事物的行为看起来像另一种事物一样。一个容器适配器接受一种已有的容器类型，使其看起来像一种不同的类型。所有的适配器都要求容器具有添加和删除以及访问尾元素的功能，故 array 和 forward_list 不能作为适配器的容器，</p>
+<p><strong>注意：容器适配器没有迭代器，不能遍历！！！</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">适配器</th>
+<th>描述</th>
+<th align="center">默认底层容器</th>
+<th>不可选的底层容器</th>
+<th>提供的主要操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">stack</td>
+<td>栈</td>
+<td align="center">deque</td>
+<td>array, forward_list</td>
+<td>push_back, pop_back, back</td>
+</tr>
+<tr>
+<td align="center">queue</td>
+<td>队列</td>
+<td align="center">deque</td>
+<td>array, forward_list, vector</td>
+<td>push_back, back, front, push_front</td>
+</tr>
+<tr>
+<td align="center">priority_queue</td>
+<td>优先队列</td>
+<td align="center">vector</td>
+<td>array, forward_list, list</td>
+<td>front, push_back, pop_back</td>
+</tr>
+</tbody></table>
+<p>在创建容器适配器时，可以指定其使用的容器</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">stack&lt;string&gt; stk;<span class="comment">// use deque as container</span></span><br><span class="line">stack&lt;string,vector&lt;string&gt;&gt; str_stk;<span class="comment">// use vector as container</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h1><h2 id="插入迭代器"><a href="#插入迭代器" class="headerlink" title="插入迭代器"></a>插入迭代器</h2><p>插入器是一种迭代器适配器，它接受一个容器，生成一个迭代器，能实现向给定容器添加元素。</p>
+<ul>
+<li>back_insert: 创建一个使用 push_back 的迭代器</li>
+<li>front_insert: 创建一个使用 push_front 的迭代器</li>
+<li>insert: 创建一个使用 insert 的迭代器。此函数接受第二个参数，其指向给定容器的迭代器。元素将被插入到给定迭代器所表示的元素之前</li>
+<li></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">*it = val;</span><br><span class="line">\\ --&gt;</span><br><span class="line">it = c.<span class="built_in">insert</span>(it,val);</span><br><span class="line">it++;</span><br><span class="line"></span><br><span class="line">list&lt;<span class="type">int</span>&gt; lst = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;;</span><br><span class="line">list&lt;<span class="type">int</span>&gt; lst2, lst3;</span><br><span class="line"><span class="built_in">copy</span>(lst.<span class="built_in">cbegin</span>(), lst.<span class="built_in">cend</span>(), <span class="built_in">front_inserter</span>(lst2));</span><br><span class="line"><span class="comment">// lst2 = &#123;4, 3, 2, 1&#125;</span></span><br><span class="line"><span class="built_in">copy</span>(lst.<span class="built_in">cbegin</span>(), lst.<span class="built_in">cend</span>(), <span class="built_in">inserter</span>(lst3, lst3.<span class="built_in">begin</span>()));</span><br><span class="line"><span class="comment">// lst3 = &#123;1, 2, 3, 4&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="流迭代器"><a href="#流迭代器" class="headerlink" title="流迭代器"></a>流迭代器</h2><p>流迭代器用于处理IO对象。通过使用流迭代器，我们可以用泛型算法从流对象读取数据以及向其写入数据。</p>
+<p>Example: 从标准输入流读入数据并存入一个vector对象中</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">istream_iterator&lt;<span class="type">int</span>&gt; <span class="title">int_iter</span><span class="params">(cin)</span></span>;<span class="comment">//从cin读取int</span></span><br><span class="line">istream_iterator&lt;<span class="type">int</span>&gt; eof;<span class="comment">//eof为空，可以定义为istream尾后迭代器</span></span><br><span class="line">vector&lt;<span class="type">int</span>&gt; vec;</span><br><span class="line"><span class="keyword">while</span> (int_iter != eof)<span class="comment">//当有数据可供读取时</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="comment">//后置递增运算符，返回迭代器的旧值</span></span><br><span class="line">   <span class="comment">//解引用迭代器，获得从流读取的前一个值</span></span><br><span class="line">   vec.<span class="built_in">push_back</span>(*int_iter++);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Example: 从标准输入流读入数据并利用泛型算法计算数据的和</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">istream_iterator&lt;<span class="type">int</span>&gt; <span class="title">int_iter</span><span class="params">(cin)</span></span>;<span class="comment">//从cin读取int</span></span><br><span class="line">istream_iterator&lt;<span class="type">int</span>&gt; eof;<span class="comment">//eof为空，可以定义为istream尾后迭代器</span></span><br><span class="line">cout &lt;&lt; <span class="built_in">accumulate</span>(int_iter, eof, <span class="number">0</span>) &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
+
+<h2 id="反向迭代器"><a href="#反向迭代器" class="headerlink" title="反向迭代器"></a>反向迭代器</h2><p>反向迭代器在容器中从尾元素向首元素反向移动，相比迭代器，反向迭代器的递增和递减的意义是反过来的。递增一个反向迭代器会移动到前一个元素，递减一个反向迭代器会移动到后一个元素。</p>
+<p>一个有趣的例子：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">string s = <span class="string">&quot;FIRST,MIDDLE,LAST&quot;</span>;</span><br><span class="line"><span class="keyword">auto</span> comma = <span class="built_in">find</span>(s.<span class="built_in">crbegin</span>(), s.<span class="built_in">crend</span>(), <span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">cout &lt;&lt; <span class="built_in">string</span>(s.<span class="built_in">crbegin</span>(), comma) &lt;&lt; endl;</span><br><span class="line"><span class="comment">// TSAL</span></span><br><span class="line">cout &lt;&lt; <span class="built_in">string</span>(comma.<span class="built_in">base</span>(), s.<span class="built_in">cend</span>()) &lt;&lt; endl;  </span><br><span class="line"><span class="comment">// LAST</span></span><br><span class="line"><span class="comment">// 反向迭代器的成员函数中有base，其作用是把其转化为普通迭代器</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h2 id="if版本的泛型算法"><a href="#if版本的泛型算法" class="headerlink" title="_if版本的泛型算法"></a>_if版本的泛型算法</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">find</span>(beg, end, val);<span class="comment">// 查找输入范围中val第一次出现的位置</span></span><br><span class="line"><span class="built_in">find</span>(beg, end, pred);<span class="comment">// 查找第一次使pred为真的元素的位置</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除v1中的奇数元素</span></span><br><span class="line"><span class="built_in">remove_if</span>(v1.<span class="built_in">begin</span>(), v1.<span class="built_in">end</span>(), [](<span class="type">int</span> i) &#123;<span class="keyword">return</span> i % <span class="number">2</span>;&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="拷贝元素版本的泛型算法"><a href="#拷贝元素版本的泛型算法" class="headerlink" title="拷贝元素版本的泛型算法"></a>拷贝元素版本的泛型算法</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">reverse</span>(beg, end); <span class="comment">// 反转输入范围中的元素顺序</span></span><br><span class="line"><span class="built_in">reverse_copy</span>(beg, end, dest); <span class="comment">// 将范围内的元素逆序拷贝到dest中</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 将v1中的奇数元素删除后拷贝给v2，v1不变</span></span><br><span class="line"><span class="built_in">remove_copy_if</span>(v1.<span class="built_in">begin</span>(), v1.<span class="built_in">end</span>(), <span class="built_in">backinserter</span>(v2), [](<span class="type">int</span> i) &#123;<span class="keyword">return</span> i % <span class="number">2</span>;&#125;);</span><br></pre></td></tr></table></figure>
+
+<h1 id="Modern-C"><a href="#Modern-C" class="headerlink" title="Modern C++"></a>Modern C++</h1><h2 id="lambda-表达式"><a href="#lambda-表达式" class="headerlink" title="lambda 表达式"></a>lambda 表达式</h2><p>lambda 表达式实质上是一个可以调用的对象，一个 lambda 表达式表示一个可调用的代码单元，可以被理解为一个未命名的内联函数，与函数不同的是<strong>lambda表达式可能定义在函数内部</strong>。</p>
+<p><strong>[capture list](parameter list) -&gt; return type{function body}</strong></p>
+<h3 id="使用捕获列表"><a href="#使用捕获列表" class="headerlink" title="使用捕获列表"></a>使用捕获列表</h3><table>
+<thead>
+<tr>
+<th>捕获类型</th>
+<th>用法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>值捕获</td>
+<td>[x]:捕获x变量的拷贝</td>
+<td>前提是捕获的值是可以拷贝的，与参数不同，被捕获的变量是在lambda创建时的拷贝，不是调用时拷贝</td>
+</tr>
+<tr>
+<td>引用捕获</td>
+<td>[&amp;x]:捕获x的引用</td>
+<td><strong>使用引用捕获的变量要保证在使用此变量时，该变量是存在的。</strong></td>
+</tr>
+<tr>
+<td>隐式捕获</td>
+<td>[&#x3D;]&#x2F;[&amp;]:分别对应值捕获和引用捕获</td>
+<td>隐式捕获会根据lambda中的代码自动推导使用哪些变量，<strong>只会捕获代码中出现的变量</strong></td>
+</tr>
+<tr>
+<td>混合捕获</td>
+<td>[&amp;,x]&#x2F;[&#x3D;,&amp;x]</td>
+<td>引用捕获除x之外的所有变量&#x2F;值捕获除x以外的所有变量</td>
+</tr>
+</tbody></table>
+<h3 id="指定返回类型"><a href="#指定返回类型" class="headerlink" title="指定返回类型"></a>指定返回类型</h3><p>在lambda不能推导出返回类型的时候，需要显式地说明表达式的返回类型。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">function f = [](<span class="type">int</span> i)&#123;</span><br><span class="line">   <span class="keyword">return</span> i&gt;<span class="number">0</span>? i:-i;</span><br><span class="line">&#125;<span class="comment">// can be compiled</span></span><br><span class="line"></span><br><span class="line">function f = [](<span class="type">int</span> i)&#123;</span><br><span class="line">   <span class="keyword">if</span>(i&gt;<span class="number">0</span>) <span class="keyword">return</span> i;</span><br><span class="line">   <span class="keyword">else</span> <span class="keyword">return</span> -i;</span><br><span class="line">&#125;<span class="comment">// can not be compiled</span></span><br><span class="line"></span><br><span class="line">function f = [](<span class="type">int</span> i) -&gt; <span class="type">int</span>&#123;</span><br><span class="line">   <span class="keyword">if</span>(i&gt;<span class="number">0</span>) <span class="keyword">return</span> i;</span><br><span class="line">   <span class="keyword">else</span> <span class="keyword">return</span> -i;</span><br><span class="line">&#125;<span class="comment">// can  be compiled</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参数绑定"><a href="#参数绑定" class="headerlink" title="参数绑定"></a>参数绑定</h3><p>bind 函数可以看作一个通用的函数适配器，它接受一个可调用的对象，生成一个新的可调用对象来适应原对象的参数列表。</p>
+<p>使用场景：</p>
+<p>已经有一个可以使用的函数，在调用lambda时想复用这个函数。</p>
+<h4 id="重排函数参数"><a href="#重排函数参数" class="headerlink" title="重排函数参数"></a>重排函数参数</h4><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isshorter</span><span class="params">(<span class="type">const</span> string &amp;a,<span class="type">const</span> string &amp;b)</span></span>&#123;</span><br><span class="line">   <span class="keyword">return</span> a.<span class="built_in">size</span>() &lt; b.<span class="built_in">size</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vector&lt;string&gt; words = &#123;<span class="string">&quot;aaa&quot;</span>,<span class="string">&quot;bb&quot;</span>,<span class="string">&quot;ccc&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">sort</span>(words.<span class="built_in">begin</span>(), words.<span class="built_in">end</span>(), isshorter);<span class="comment">//words are sorted from short to long</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sort</span>(words.<span class="built_in">begin</span>(), words.<span class="built_in">end</span>(), <span class="built_in">bind</span>(isshorter,_2,_1));<span class="comment">//words are sorted from long to short</span></span><br></pre></td></tr></table></figure>
+
+<p>如果bind中的参数需要引用，需要使用ref函数和cref(#inclued &lt;functional&gt;),ref生成一个引用对象，cref则生成带const的引用对象</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 如果想要使用指定引用，使用ref</span></span><br><span class="line"><span class="function">ostream &amp;<span class="title">print</span><span class="params">(ostream&amp; os,string &amp;s, <span class="type">char</span> c)</span></span>&#123;</span><br><span class="line">   <span class="keyword">return</span> os&lt;&lt;s&lt;&lt;c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for_each(words.<span class="built_in">begin</span>(),words.<span class="built_in">end</span>(),<span class="built_in">bind</span>(print,<span class="built_in">ref</span>(os),_1,<span class="string">&#x27; &#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<h2 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h2><p>在C++中使用动态内存很容易出问题，因为保证在正确的时间释放内存是及其困难的。忘记释放动态内存会导致内存泄漏的问题，其次在尚有指针应用内存的情况下释放了动态内存会导致引用非法内存的指针。</p>
+<table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">shared_ptr</td>
+<td align="center">允许多个指针指向同一个对象</td>
+</tr>
+<tr>
+<td align="center">unique_ptr</td>
+<td align="center">“独占”所指向的对象</td>
+</tr>
+<tr>
+<td align="center">weak_ptr</td>
+<td align="center">伴随类，指向shared_ptr管理的对象</td>
+</tr>
+</tbody></table>
+<h3 id="shared-ptr-的使用"><a href="#shared-ptr-的使用" class="headerlink" title="shared_ptr 的使用"></a>shared_ptr 的使用</h3><p>我们可以认为每一个 shared_ptr 都有一个关联的计数器，通常称其为引用计数，当拷贝一个 shared_ptr, 计数器都会增加。当 shared_ptr 的计数器变为 0，它就会自动释放自己所管理的对象。</p>
+<p>最安全的分配和使用shared_ptr的方法是调用一个名为 make_shared 的标准库函数，此函数在动态分配一个对象并初始化它，返回指向此对象的 shared_ptr。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">shared_ptr&lt;<span class="type">int</span>&gt; p1 = <span class="built_in">make_shared</span>&lt;<span class="type">int</span>&gt;(<span class="number">42</span>);</span><br><span class="line">shared_ptr&lt;string&gt; p2 = <span class="built_in">make_shared</span>&lt;string&gt;(<span class="number">10</span>, <span class="string">&#x27;9&#x27;</span>);</span><br><span class="line"><span class="comment">// p3 指向一个初始化的int，即值为0</span></span><br><span class="line">shared_ptr&lt;<span class="type">int</span>&gt; p3 = <span class="built_in">make_shared</span>&lt;<span class="type">int</span>&gt;();</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note</strong>: 使用动态内存的一个常见原因是允许多个对象共享相同的状态。</p>
+<h3 id="unique-ptr-的使用"><a href="#unique-ptr-的使用" class="headerlink" title="unique_ptr 的使用"></a>unique_ptr 的使用</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">unique_ptr&lt;<span class="type">double</span>&gt; p1; <span class="comment">//可以指向一个double的 unique_ptr</span></span><br><span class="line"><span class="function">unique_ptr&lt;<span class="type">int</span>&gt; <span class="title">p2</span><span class="params">(newe <span class="type">int</span> (<span class="number">42</span>))</span></span>; <span class="comment">// p2指向一个值为 42 的int</span></span><br><span class="line">unique_ptr&lt;<span class="type">int</span>&gt; p3;</span><br><span class="line">p3 = p2;<span class="comment">// error! unique_ptr 不支持赋值</span></span><br><span class="line"></span><br><span class="line">p2 = <span class="literal">nullptr</span>; <span class="comment">// 释放 p2 原来指向的内存</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 转移 unique_ptr的所有权</span></span><br><span class="line"></span><br><span class="line"><span class="function">unique_ptr&lt;<span class="type">int</span>&gt; <span class="title">p4</span><span class="params">(p2.release())</span></span>;<span class="comment">// 将所有权从 p2 转移给 p4</span></span><br><span class="line"><span class="function">unique_ptr&lt;<span class="type">int</span>&gt; <span class="title">p5</span><span class="params">(newe <span class="type">int</span> (<span class="number">40</span>))</span></span>;</span><br><span class="line">p4.<span class="built_in">reset</span>(p5.<span class="built_in">release</span>());<span class="comment">// 将所有权从 p5 转移给 p4, 并释放 p4 原来指向的内存</span></span><br><span class="line"></span><br><span class="line">p4.<span class="built_in">release</span>(); <span class="comment">// error p4 不会释放内存, release 函数只是切断了指针与对象的联系，而且此行为会导致丢失指针</span></span><br><span class="line"><span class="keyword">auto</span> p = p4.<span class="built_in">release</span>(); <span class="comment">// correct 需要 delete p 才能释放内存</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="weak-ptr-的使用"><a href="#weak-ptr-的使用" class="headerlink" title="weak_ptr 的使用"></a>weak_ptr 的使用</h3><p>weak_ptr 不参与计数器的增长，当最后一个 shared_ptr 被销毁时，即使有 weak_ptr 指向该对象, 该对象也会被释放。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">auto</span> p = <span class="built_in">make_shared</span>&lt;<span class="type">int</span>&gt;(<span class="number">42</span>);</span><br><span class="line"><span class="function">weak_ptr&lt;<span class="type">int</span>&gt; <span class="title">wp</span><span class="params">(p)</span></span>; <span class="comment">// 创建 weak_ptr 时需要初始化 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 由于 weak_ptr 所指向的对象有可能为空, 所以不能使用 weak_ptr 直接调用对象, 要使用 lock 函数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">auto</span> pp = wp.<span class="built_in">lock</span>())&#123; <span class="comment">// 如果 wp 所指对象不为空则可以进入条件语句中</span></span><br><span class="line">   <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>c++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Grpc的一些知识</title>
     <url>/undefined/2022/11/11/Grpc%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/</url>
     <content><![CDATA[<h1 id="GRPC"><a href="#GRPC" class="headerlink" title="GRPC"></a>GRPC</h1><h2 id="ProtoBuf"><a href="#ProtoBuf" class="headerlink" title="ProtoBuf"></a>ProtoBuf</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p><a href="https://developers.google.com/protocol-buffers/docs/overview">官方文档</a></p>
@@ -137,7 +399,7 @@
 <h2 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h2><p>输入<code>hexo new post &quot;article title&quot;</code>,新建文章,进入<code>source/_posts/</code>文件夹下修改相应的<code>.md</code>文件</p>
 <p>输入<code>hexo g</code>生成静态网页，然后输入<code>hexo s</code>本地预览效果，最后输入<code>hexo d</code>上传到github上</p>
 <h2 id="保存源代码"><a href="#保存源代码" class="headerlink" title="保存源代码"></a>保存源代码</h2><ol>
-<li>创建github仓库(不需要创建readme),并获取到仓库的地址“<a href="mailto:&#x67;&#105;&#x74;&#64;&#103;&#x69;&#x74;&#x68;&#117;&#x62;&#46;&#x63;&#x6f;&#109;">&#x67;&#105;&#x74;&#64;&#103;&#x69;&#x74;&#x68;&#117;&#x62;&#46;&#x63;&#x6f;&#109;</a>:xxx&#x2F;blog.git”</li>
+<li>创建github仓库(不需要创建readme),并获取到仓库的地址“<a href="mailto:&#103;&#x69;&#116;&#64;&#103;&#x69;&#x74;&#x68;&#x75;&#98;&#46;&#x63;&#x6f;&#109;">&#103;&#x69;&#116;&#64;&#103;&#x69;&#x74;&#x68;&#x75;&#98;&#46;&#x63;&#x6f;&#109;</a>:xxx&#x2F;blog.git”</li>
 <li>在当前目录下执行以下命令</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin git@github.com:xxx/matlablearning.git </span><br><span class="line">git branch -b main</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;xxx&quot;</span></span><br><span class="line">git push origin main</span><br></pre></td></tr></table></figure>
