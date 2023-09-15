@@ -449,7 +449,7 @@
 <h2 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h2><p>输入<code>hexo new post &quot;article title&quot;</code>,新建文章,进入<code>source/_posts/</code>文件夹下修改相应的<code>.md</code>文件</p>
 <p>输入<code>hexo g</code>生成静态网页，然后输入<code>hexo s</code>本地预览效果，最后输入<code>hexo d</code>上传到github上</p>
 <h2 id="保存源代码"><a href="#保存源代码" class="headerlink" title="保存源代码"></a>保存源代码</h2><ol>
-<li>创建github仓库(不需要创建readme),并获取到仓库的地址“<a href="mailto:&#x67;&#105;&#x74;&#x40;&#103;&#x69;&#x74;&#x68;&#x75;&#98;&#x2e;&#99;&#111;&#109;">&#x67;&#105;&#x74;&#x40;&#103;&#x69;&#x74;&#x68;&#x75;&#98;&#x2e;&#99;&#111;&#109;</a>:xxx&#x2F;blog.git”</li>
+<li>创建github仓库(不需要创建readme),并获取到仓库的地址“<a href="mailto:&#103;&#105;&#x74;&#64;&#103;&#105;&#x74;&#x68;&#x75;&#98;&#46;&#99;&#111;&#x6d;">&#103;&#105;&#x74;&#64;&#103;&#105;&#x74;&#x68;&#x75;&#98;&#46;&#99;&#111;&#x6d;</a>:xxx&#x2F;blog.git”</li>
 <li>在当前目录下执行以下命令</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin git@github.com:xxx/matlablearning.git </span><br><span class="line">git branch -b main</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;xxx&quot;</span></span><br><span class="line">git push origin main</span><br></pre></td></tr></table></figure>
@@ -530,30 +530,6 @@
       </tags>
   </entry>
   <entry>
-    <title>MySQL 面试问答</title>
-    <url>/undefined/2023/09/15/MySQL-%E9%9D%A2%E8%AF%95%E9%97%AE%E7%AD%94/</url>
-    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="8996c986518a37f0810f9d09a3ac7135df5c3fb874b29d312d120061e21f2d09">445096448b7471d50bf0b1f4d74fe16153e06dc8b226a182c1a8a46d61e3235a9cfae38eda8791ce5ca018bf8d350ef469c0608ab903d3ab1a34a73a789af5255dfc6043e87cc3fd6a3f5ae728ad03a7552551dd97641ad5349db9adcadf1e1c5911ab6f48d4b9f0d261e7c88342c76b32779dae41dc0bac6976ae9effb648307d60a814b75690d4008e15a8bd1290ee0cdfcdf146d70ad7763e75b414deb51bf3bdf8ac2698ba6d47197e13ac46f4e41fca932f99f6f36f9343439ecfe6aa2b9548b75c6e88d53b2bbfe18b97097ff1f22457b7518a6b050b283e7c0010d65a77a6c2c0b44d368b376a31a81995ed80315fa9a50b32d7881cf12744d5057d3af5d7792dc27b783432508c913361ef07c38bd4b7e42e89eb8bd13e8d2da0c3b69471a3282f0282400b66da1ef477fc03440e6273d514dca9ed451e0585215851ca2772c5a503334e2de4edcb2fd7a3d95d2045c86ad41d68c46ea42c112c211471fe071ea74a1204b36a774c8c7429454f20bd97f236cd822a7b20bfc29fce49d1c44a9460bf6f235135ba7b9e150fbf836472bacc45a415fe9e020678a78fd376e15c8e32c37215a85b1d4cdae1053b5b989060d42571d4056a1ab9730e36a6060bbed63c7fce0d4ff910e4033a2bd9474299116e20d3c699c95518dbbce28fa32984e595f37bf9dc1c7fbb3de4c5fc8fc017fd3b4306296429010f06bdf37c09d0f709c404656e70c7a4f180c9112f6e7e78a723f2ec1bdaa1ea5e5223314065b1df511d62e7e339d91c4cd40acce6751029ea594b11d75eec4860563e2802cd83ddb59bdeb043a452a46daa9073f61c1312abd732d796186dd2280725565816e9350870ac343e743035467a32ed8bf56438ab801b833b3865e7c95d425b3241c7e7c6775a234a9bdb016e2c464c7820b4a1ff01fa288acd11ef52e2db62a97b8b304755f182794eab8e4ecf3e0955be6360c241e43813c3673e70522b70e1d9731bbc0d04f2bdab75832bd08901e34a0a31b7355f5c9c84a72aafc828b117bfca4e167c4bdc0679b12b989b672c7046dbcab044f07809e5f9c5a96e1eeb0e63e9c26395092ff95481e73f5f51f4a37e4e4c9d09bf3dc033979df3b264c68f7ecdaccf64988529927c5f2afab56414752a908cd0d7ba5ef018df2df270679528d11f42eed281f111915a4989554b96b11c0e3c8c1a27fa0c9f5549317bc5749d3e0ac1fa9b2b7affa5ca042d079210367967df1e9c97be64d834a0a336f478bca3045d1b6304b311a556a68ef8c7f9a9ef49099e941546a753323daae395f6db11848003112071deae16a3a7124d27f53123215331c200f2b89f06281512fa16be6061dcae1a5807af14310e2bb815d3e873c04429bd4745d92c0551a4340e255e6323a48325fd1c204747b562b85448d1a5dc539c71b83d1945209effbc5737171afff76069f85f4789ad5b84619426b106f90e26ec76aa122e63d98446e96fd24cc1b24647d8b98623ba2c736bd86211361e0635dd64294ca9eb2a8c1a0c6dcd751cf8d8304a9164d29f292fe75d209da760518de3b553d63639bb86a1b2ea9807eb72d505a79440b0be0fd89592cb901ed9578263abca3644a79a9e2a23e10ee224adba0012664d177c8a315820e72426656b85542b87e373332e35b0f7239915e1bf50496a30e3caafdbf3a552a579614d2150a1e40ed3295d155644db1e5ca38d3a7f6516ef55881f041b95d1962df821041b7314dbd218e1fc6e7b833baeeea5efe8b32e93a42287280a598cef4b4274d3f97ed63cd55d1354f25b9ecd6395b78fc1dda2202a3304291795a8cfca67e70b4b4dcae2a70e2aa1be017dfb3d16d2b535d65b6cecda238a413f7877501dee83d4f516156d89196c1211884da911f87952418f9ff80ddd90d6dd3375cdbf09741e625ded4e217cd24b72a7089cb2b3b137d0394a98ce8dec06a011586d4df9db164bce411acd8ab057da2155c574501acd07226495ba9c87608cc833c411c40d8355b2ace9613c7c4f4f9a9371f69515a1f3aece2ff31ad76eaffd7bff641c67c9ff34f72372da2321a92c15b8e0396036aa344a5aa5d3d77dce7162277eac644c17360b0d1e7e411207f0c282a69c95f916de9e13332ab8f390f093de062d3b2b982d88283c7721b0d99e8bafafae3d4bdb0cac1cde51d8ffa4911e7428ada0243aeae966ca54644b642b298c892bfdc3704fbe7f6b932436b8e950d1d1192bd1666951990d08abbdac57ff71459055a2ee5e8a53da4b031bf3edc13ece27d1f9299d9db934e70a2d3a2a2856253ee0aa3eada5f77c2f0e457ad8f382aad325f40f0ea48d095f5cf0ffa78053a124f44dd170480dbd24dc6c90d2ff2a480a14fa35f9aac35f57577a9d93879f906f766110a169fcea1131a467ec518025ae220045996c3f9da0201e2c9ad6d77a729765ad13ddcc0a891304fdff7a26d045deb563f9e708c778c0ca32252d0811a5d48574731e2dec481c312b95e137efcd33fa6f4b90d76ea8a3d30ef20555c4ce2d5e303ee47a4e3ef94a4ff7a3d510e24415e138dbad87f1f3848b3f79b61c7ae1203ff6fc7e00c9d53193eac8b696680e5ed6866aeed8fcf334098e</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">Hey, password is required here.</span>
-      </label>
-    </div>
-  </div>
-</div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
-      <categories>
-        <category>Tools</category>
-        <category>面试题</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
-        <tag>面试题</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Nginx 避坑指北</title>
     <url>/undefined/2023/09/15/Nginx-%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/</url>
     <content><![CDATA[<h2 id="更改Nginx的端口设置"><a href="#更改Nginx的端口设置" class="headerlink" title="更改Nginx的端口设置"></a>更改Nginx的端口设置</h2><p>因为SELinux的缘故，http服务只能在某些固定的端口监听，可以使用以下命令查看可使用的端口号：</p>
@@ -598,11 +574,59 @@
       </tags>
   </entry>
   <entry>
+    <title>MySQL 面试问答</title>
+    <url>/undefined/2023/09/15/MySQL-%E9%9D%A2%E8%AF%95%E9%97%AE%E7%AD%94/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="8996c986518a37f0810f9d09a3ac7135df5c3fb874b29d312d120061e21f2d09">445096448b7471d50bf0b1f4d74fe16153e06dc8b226a182c1a8a46d61e3235a9cfae38eda8791ce5ca018bf8d350ef469c0608ab903d3ab1a34a73a789af5255dfc6043e87cc3fd6a3f5ae728ad03a7552551dd97641ad5349db9adcadf1e1c5911ab6f48d4b9f0d261e7c88342c76b32779dae41dc0bac6976ae9effb648307d60a814b75690d4008e15a8bd1290ee0cdfcdf146d70ad7763e75b414deb51bf3bdf8ac2698ba6d47197e13ac46f4e41fca932f99f6f36f9343439ecfe6aa2b9548b75c6e88d53b2bbfe18b97097ff1f22457b7518a6b050b283e7c0010d65a77a6c2c0b44d368b376a31a81995ed80315fa9a50b32d7881cf12744d5057d3af5d7792dc27b783432508c913361ef07c38bd4b7e42e89eb8bd13e8d2da0c3b69471a3282f0282400b66da1ef477fc03440e6273d514dca9ed451e0585215851ca2772c5a503334e2de4edcb2fd7a3d95d2045c86ad41d68c46ea42c112c211471fe071ea74a1204b36a774c8c7429454f20bd97f236cd822a7b20bfc29fce49d1c44a9460bf6f235135ba7b9e150fbf836472bacc45a415fe9e020678a78fd376e15c8e32c37215a85b1d4cdae1053b5b989060d42571d4056a1ab9730e36a6060bbed63c7fce0d4ff910e4033a2bd9474299116e20d3c699c95518dbbce28fa32984e595f37bf9dc1c7fbb3de4c5fc8fc017fd3b4306296429010f06bdf37c09d0f709c404656e70c7a4f180c9112f6e7e78a723f2ec1bdaa1ea5e5223314065b1df511d62e7e339d91c4cd40acce6751029ea594b11d75eec4860563e2802cd83ddb59bdeb043a452a46daa9073f61c1312abd732d796186dd2280725565816e9350870ac343e743035467a32ed8bf56438ab801b833b3865e7c95d425b3241c7e7c6775a234a9bdb016e2c464c7820b4a1ff01fa288acd11ef52e2db62a97b8b304755f182794eab8e4ecf3e0955be6360c241e43813c3673e70522b70e1d9731bbc0d04f2bdab75832bd08901e34a0a31b7355f5c9c84a72aafc828b117bfca4e167c4bdc0679b12b989b672c7046dbcab044f07809e5f9c5a96e1eeb0e63e9c26395092ff95481e73f5f51f4a37e4e4c9d09bf3dc033979df3b264c68f7ecdaccf64988529927c5f2afab56414752a908cd0d7ba5ef018df2df270679528d11f42eed281f111915a4989554b96b11c0e3c8c1a27fa0c9f5549317bc5749d3e0ac1fa9b2b7affa5ca042d079210367967df1e9c97be64d834a0a336f478bca3045d1b6304b311a556a68ef8c7f9a9ef49099e941546a753323daae395f6db11848003112071deae16a3a7124d27f53123215331c200f2b89f06281512fa16be6061dcae1a5807af14310e2bb815d3e873c04429bd4745d92c0551a4340e255e6323a48325fd1c204747b562b85448d1a5dc539c71b83d1945209effbc5737171afff76069f85f4789ad5b84619426b106f90e26ec76aa122e63d98446e96fd24cc1b24647d8b98623ba2c736bd86211361e0635dd64294ca9eb2a8c1a0c6dcd751cf8d8304a9164d29f292fe75d209da760518de3b553d63639bb86a1b2ea9807eb72d505a79440b0be0fd89592cb901ed9578263abca3644a79a9e2a23e10ee224adba0012664d177c8a315820e72426656b85542b87e373332e35b0f7239915e1bf50496a30e3caafdbf3a552a579614d2150a1e40ed3295d155644db1e5ca38d3a7f6516ef55881f041b95d1962df821041b7314dbd218e1fc6e7b833baeeea5efe8b32e93a42287280a598cef4b4274d3f97ed63cd55d1354f25b9ecd6395b78fc1dda2202a3304291795a8cfca67e70b4b4dcae2a70e2aa1be017dfb3d16d2b535d65b6cecda238a413f7877501dee83d4f516156d89196c1211884da911f87952418f9ff80ddd90d6dd3375cdbf09741e625ded4e217cd24b72a7089cb2b3b137d0394a98ce8dec06a011586d4df9db164bce411acd8ab057da2155c574501acd07226495ba9c87608cc833c411c40d8355b2ace9613c7c4f4f9a9371f69515a1f3aece2ff31ad76eaffd7bff641c67c9ff34f72372da2321a92c15b8e0396036aa344a5aa5d3d77dce7162277eac644c17360b0d1e7e411207f0c282a69c95f916de9e13332ab8f390f093de062d3b2b982d88283c7721b0d99e8bafafae3d4bdb0cac1cde51d8ffa4911e7428ada0243aeae966ca54644b642b298c892bfdc3704fbe7f6b932436b8e950d1d1192bd1666951990d08abbdac57ff71459055a2ee5e8a53da4b031bf3edc13ece27d1f9299d9db934e70a2d3a2a2856253ee0aa3eada5f77c2f0e457ad8f382aad325f40f0ea48d095f5cf0ffa78053a124f44dd170480dbd24dc6c90d2ff2a480a14fa35f9aac35f57577a9d93879f906f766110a169fcea1131a467ec518025ae220045996c3f9da0201e2c9ad6d77a729765ad13ddcc0a891304fdff7a26d045deb563f9e708c778c0ca32252d0811a5d48574731e2dec481c312b95e137efcd33fa6f4b90d76ea8a3d30ef20555c4ce2d5e303ee47a4e3ef94a4ff7a3d510e24415e138dbad87f1f3848b3f79b61c7ae1203ff6fc7e00c9d53193eac8b696680e5ed6866aeed8fcf334098e</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">Hey, password is required here.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <categories>
+        <category>Tools</category>
+        <category>面试题</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+        <tag>面试题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>question</title>
     <url>/undefined/2023/01/12/question/</url>
     <content><![CDATA[<h2 id="如何区别大小端机器码？"><a href="#如何区别大小端机器码？" class="headerlink" title="如何区别大小端机器码？"></a>如何区别大小端机器码？</h2><p>对于一个32位字0x1234567, 在小端存储中，高序字节是放在内的低地址，而在大端存储中，高序字节是存放在内存的高地址。具体的描述可以看下图。</p>
 
 <!-- ![实例](BbigSmallStroe.gif) -->
 ]]></content>
+  </entry>
+  <entry>
+    <title>图搜索题集</title>
+    <url>/undefined/2023/09/15/%E5%9B%BE%E6%90%9C%E7%B4%A2%E9%A2%98%E9%9B%86/</url>
+    <content><![CDATA[<h2 id="黑白格"><a href="#黑白格" class="headerlink" title="黑白格"></a>黑白格</h2><p>题目描述：<br>给一个n<em>m(n</em>m &lt;&#x3D; 1e5)的矩阵, 里面的元素为0或1, 0代表白格子, 1代表黑格子.<br>初始时你在左上角, 你现在要走到右下角去.每次移动你只能移动到相邻格子上去（上下左右, 不能超出图）<br>请问你到达右下角最少需要经过多少个黑格子？</p>
+<p>输入</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">5 3</span><br><span class="line">0 1 0</span><br><span class="line">0 1 1</span><br><span class="line">0 1 0</span><br><span class="line">1 0 0</span><br><span class="line">1 0 0</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>题解</p>
+<p>运用广度优先遍历，然后每次将遍历中最小权值的点取出（使用优先队列），然后判断其四个方向是否能更新为更小的权值.<br>这也是经典的单源最短路径问题。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">    <span class="type">int</span> x, y, cnt;</span><br><span class="line">    <span class="built_in">Node</span>(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> c) &#123;</span><br><span class="line">        x = a;</span><br><span class="line">        y = b;</span><br><span class="line">        cnt = c;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">bool</span> <span class="keyword">operator</span>&lt;(<span class="type">const</span> Node&amp; tmp) <span class="type">const</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> cnt &gt; tmp.cnt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">int</span> d[<span class="number">4</span>][<span class="number">2</span>] = &#123;&#123;<span class="number">-1</span>, <span class="number">0</span>&#125;, &#123;<span class="number">1</span>, <span class="number">0</span>&#125;, &#123;<span class="number">0</span>, <span class="number">-1</span>&#125;, &#123;<span class="number">0</span>, <span class="number">1</span>&#125;&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line">    <span class="type">int</span> n,m;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">g</span>(n,<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(m,<span class="number">0</span>));</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">vis</span>(n,<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(m,<span class="number">1e5</span>+<span class="number">10</span>));</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;++i)<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;m;++j)cin&gt;&gt;g[i][j];   </span><br><span class="line">    vis[<span class="number">0</span>][<span class="number">0</span>] = g[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line">    priority_queue&lt;Node&gt; q;</span><br><span class="line">    q.<span class="built_in">push</span>(&#123;<span class="number">0</span>,<span class="number">0</span>,vis[<span class="number">0</span>][<span class="number">0</span>]&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> check = [&amp;](<span class="type">int</span> x,<span class="type">int</span> y,<span class="type">int</span> base)&#123;</span><br><span class="line">        <span class="keyword">if</span> (x &lt; <span class="number">0</span> || x &gt;= n || y &lt; <span class="number">0</span> || y &gt;= m)  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (base + g[x][y] &gt;= vis[x][y])  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">        <span class="keyword">auto</span> cur = q.<span class="built_in">top</span>();</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">if</span>(cur.x == n - <span class="number">1</span> &amp;&amp; cur.y == m<span class="number">-1</span>)&#123;</span><br><span class="line">            cout&lt;&lt;cur.cnt;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;++i)&#123;</span><br><span class="line">            <span class="type">int</span> xx = cur.x + d[i][<span class="number">0</span>], yy = cur.y + d[i][<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">check</span>(xx,yy,cur.cnt))&#123;</span><br><span class="line">                vis[xx][yy] = cur.cnt + g[xx][yy];</span><br><span class="line">                q.<span class="built_in">push</span>(&#123;xx,yy,vis[xx][yy]&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;vis[n<span class="number">-1</span>][m<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>BFS</tag>
+        <tag>优先队列</tag>
+        <tag>Dijkstra</tag>
+      </tags>
   </entry>
 </search>
