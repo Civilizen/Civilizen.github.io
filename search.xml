@@ -263,6 +263,15 @@
       </tags>
   </entry>
   <entry>
+    <title>EffectiveCpp</title>
+    <url>/undefined/2022/12/03/EffectiveCpp/</url>
+    <content><![CDATA[<p>Rules:</p>
+<ul>
+<li>确定对象被使用前已先被初始化。如果不清空，使用gdb调试器查看addr内的变量，会是一些随机值，未来可能会导致意想不到的问题。</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>Grpc的一些知识</title>
     <url>/undefined/2022/11/11/Grpc%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/</url>
     <content><![CDATA[<h1 id="GRPC"><a href="#GRPC" class="headerlink" title="GRPC"></a>GRPC</h1><h2 id="ProtoBuf"><a href="#ProtoBuf" class="headerlink" title="ProtoBuf"></a>ProtoBuf</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p><a href="https://developers.google.com/protocol-buffers/docs/overview">官方文档</a></p>
@@ -440,7 +449,7 @@
 <h2 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h2><p>输入<code>hexo new post &quot;article title&quot;</code>,新建文章,进入<code>source/_posts/</code>文件夹下修改相应的<code>.md</code>文件</p>
 <p>输入<code>hexo g</code>生成静态网页，然后输入<code>hexo s</code>本地预览效果，最后输入<code>hexo d</code>上传到github上</p>
 <h2 id="保存源代码"><a href="#保存源代码" class="headerlink" title="保存源代码"></a>保存源代码</h2><ol>
-<li>创建github仓库(不需要创建readme),并获取到仓库的地址“<a href="mailto:&#x67;&#105;&#116;&#64;&#103;&#x69;&#116;&#x68;&#x75;&#98;&#46;&#x63;&#111;&#109;">&#x67;&#105;&#116;&#64;&#103;&#x69;&#116;&#x68;&#x75;&#98;&#46;&#x63;&#111;&#109;</a>:xxx&#x2F;blog.git”</li>
+<li>创建github仓库(不需要创建readme),并获取到仓库的地址“<a href="mailto:&#x67;&#x69;&#x74;&#x40;&#103;&#x69;&#116;&#x68;&#117;&#98;&#46;&#x63;&#111;&#x6d;">&#x67;&#x69;&#x74;&#x40;&#103;&#x69;&#116;&#x68;&#117;&#98;&#46;&#x63;&#111;&#x6d;</a>:xxx&#x2F;blog.git”</li>
 <li>在当前目录下执行以下命令</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin git@github.com:xxx/matlablearning.git </span><br><span class="line">git branch -b main</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;xxx&quot;</span></span><br><span class="line">git push origin main</span><br></pre></td></tr></table></figure>
@@ -456,16 +465,7 @@
     <url>/undefined/2023/01/12/question/</url>
     <content><![CDATA[<h2 id="如何区别大小端机器码？"><a href="#如何区别大小端机器码？" class="headerlink" title="如何区别大小端机器码？"></a>如何区别大小端机器码？</h2><p>对于一个32位字0x1234567, 在小端存储中，高序字节是放在内的低地址，而在大端存储中，高序字节是存放在内存的高地址。具体的描述可以看下图。</p>
 
-<p><img src="/undefined/2023/01/12/question/BbigSmallStroe.gif" alt="实例"></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>EffectiveCpp</title>
-    <url>/undefined/2022/12/03/EffectiveCpp/</url>
-    <content><![CDATA[<p>Rules:</p>
-<ul>
-<li>确定对象被使用前已先被初始化。如果不清空，使用gdb调试器查看addr内的变量，会是一些随机值，未来可能会导致意想不到的问题。</li>
-</ul>
+<p><img src="/BbigSmallStroe.gif" alt="实例"></p>
 ]]></content>
   </entry>
 </search>
