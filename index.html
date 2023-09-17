@@ -151,13 +151,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -184,6 +184,114 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://civilizen.github.io/undefined/2023/09/17/%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Civilizen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Civilizen's Blog">
+      <meta itemprop="description" content="Civi's learning path.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Civilizen's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/undefined/2023/09/17/%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" class="post-title-link" itemprop="url">我理解的C++智能指针</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-09-17 20:57:16 / 修改时间：22:07:13" itemprop="dateCreated datePublished" datetime="2023-09-17T20:57:16+08:00">2023-09-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CPP11/" itemprop="url" rel="index"><span itemprop="name">CPP11</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="为什么需要智能指针？"><a href="#为什么需要智能指针？" class="headerlink" title="为什么需要智能指针？"></a>为什么需要智能指针？</h2><p>从RAII（资源获取即初始化）编程的角度出发，使用智能指针能解决内存泄漏问题，用智能指针类封装裸指针能够保证申请的空间变量能够正常地释放，有可能作为程序员的你在很远的地方申请了资源，但是忘记了释放。</p>
+<p>此外，它还能解决面向对象设计编程的一个问题，值传递和引用传递。某些对象在使用值传递时，会触发复制操作（return语句）。但是有些对象可能设置了不可复制的特性，那么使用值传递就不能解决我们的需求。那么传递一个指针？</p>
+<p>又会回到上一个问题，我可能忘记释放了！！！</p>
+<h2 id="智能指针的区别"><a href="#智能指针的区别" class="headerlink" title="智能指针的区别"></a>智能指针的区别</h2><h3 id="auto-ptr-CPP11-vs-unique-ptr"><a href="#auto-ptr-CPP11-vs-unique-ptr" class="headerlink" title="auto_ptr(CPP11) vs unique_ptr"></a>auto_ptr(CPP11) vs unique_ptr</h3><p>首先要理解，为什么要使用auto_ptr，auto_ptr<strong>只允许</strong>有一个类实例获得了某个指针的所有权。很容易想到的一个使用场景，就是工厂模式里面的工厂。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    ~<span class="built_in">A</span>()&#123;cout&lt;&lt;<span class="string">&quot;free!&quot;</span>&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function">auto_ptr&lt;A&gt; <span class="title">ptr1</span><span class="params">(<span class="keyword">new</span> A())</span></span>;</span><br><span class="line">auto_ptr&lt;A&gt; ptr2;</span><br><span class="line">ptr2 = ptr1; <span class="comment">// 权限发生了隐式转移</span></span><br><span class="line">cout&lt;&lt;ptr1-&gt;a; <span class="comment">// Segment Fault</span></span><br></pre></td></tr></table></figure>
+
+<p>上面这段代码发生了什么行为？<br>因为发生了隐式的权限转移，在最后一行试图调用前面的对象，就会发生段错误。从而报错。</p>
+<p>unique_ptr 禁止了复制运算符的使用，如果要将所有权转移，则需要调用move语句。这也是一种显示的所有权转移。当然，还是慎用move语句！</p>
+<h3 id="shared-ptr-CPP11"><a href="#shared-ptr-CPP11" class="headerlink" title="shared_ptr(CPP11)"></a>shared_ptr(CPP11)</h3><p>shared_ptr 允许多个类对象同时拥有一个指针实例，当对这个指针的引用技术变为0以后，就将该指针拥有的内存对象释放出来。</p>
+<p>使用shared_ptr需要注意一些要求：</p>
+<ul>
+<li>不要对同一个指针多次调用构造shared_ptr，这样会导致多次释放内存。</li>
+<li>不要直接使用shared_ptr管理的那个裸指针来访问对象，因为这种方式不会让引用计数增加，可能会发生访问时内存已经释放的现象。</li>
+<li>避免出现循环引用，会导致拥有指针的双方各自等待对方释放，导致资源无法释放。</li>
+</ul>
+<h3 id="weeak-ptr"><a href="#weeak-ptr" class="headerlink" title="weeak_ptr"></a>weeak_ptr</h3><p>为了解决循环引用可能带来的问题，weeak_ptr应运而生，weeak_ptr不占有指针，使用它指向对象时，不会增加计数，从而可以让资源正常释放。</p>
+<p>但是使用weak_ptr访问指针的时候，因为weeak_ptr不占有指针，我们无法像使用shared_ptr一样直接访问里面的指针对象。</p>
+<p>我们需要调用 weak_ptr 的 lock() 方法，它可以判断对象是否还存在，如果不存在，则返回一个空的shared_ptr，如果存在则返回一个存有对象的share_ptr。</p>
+<p>如果要使用weak_ptr构造一个shared_ptr，需要在此之前判断对象是否析构，使用的方式可以是调用ues_count()判断。</p>
+<h2 id="如何获取-this指针"><a href="#如何获取-this指针" class="headerlink" title="如何获取*this指针"></a>如何获取*this指针</h2><p>假设你的成员函数里面需要使用该对象的智能指针，我们看看会发生什么问题？</p>
+<p>如果参数只是需要一个裸指针，那么返回一个*this就可以解决这个问题（但还是不符合RAII），但是如果是要智能指针对象，我们可以直接调用 make_shard(*this)吗？</p>
+<p>很明显不可以，在成员函数里，对*this指针调用了make_shared, 离开了这个成员函数的作用域，智能指针会检测到*this指针已经没有被指向了，从而触发了智能指针的析构函数。从而离开成员函数作用域以后，这个对象实例就被释放了！！！</p>
+<p>为了解决这个问题，CPP11提供了一个模板类用于获取*this指针的shared_ptr对象。</p>
+<p><code>std::enable_shared_from_this&lt;T&gt;</code></p>
+<p>当需要在某个类的成员函数里面使用this指针，那么就可以将该类继承于这个模板类，从而在函数中调用 <code>shared_from_this()</code> 返回对应的this指针的智能指针。</p>
+<p>一个实例</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span>: <span class="keyword">public</span> std::enable_shared_from_this&lt;Test&gt;&#123;</span><br><span class="line"><span class="keyword">public</span>:  </span><br><span class="line">    <span class="built_in">Test</span>();</span><br><span class="line">    ~<span class="built_in">Test</span>();</span><br><span class="line">    <span class="function">std::shared_ptr&lt;Test&gt; <span class="title">getSharedFromThis</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">shared_from_this</span>(); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>使用 shared_from_this()函数也有一定的限制，就是不能在构造函数和析构函数中调用这个函数，因为 enable_shared_from_this 内部储存了一个 weak_ptr。shared_from_this 函数就是通过这个 weak_ptr 得到了。</p>
+<p>这个weak_ptr在构造函数中是没有对其进行初始化的，所以在构造函数中调用shared_from_this会发生错误。同理，析构函数中也是不允许的，因为对象已经析构，weak_ptr返回空，从而没法得到对象。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -223,7 +331,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2023-09-15 21:25:20 / 修改时间：21:34:36" itemprop="dateCreated datePublished" datetime="2023-09-15T21:25:20+08:00">2023-09-15</time>
+      <time title="创建时间：2023-09-15 21:25:20 / 修改时间：21:37:35" itemprop="dateCreated datePublished" datetime="2023-09-15T21:25:20+08:00">2023-09-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -245,7 +353,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="黑白格"><a href="#黑白格" class="headerlink" title="黑白格"></a>黑白格</h2><p>题目描述：<br>给一个$n<em>m$($n</em>m$ &lt;&#x3D; 1e5)的矩阵, 里面的元素为0或1, 0代表白格子, 1代表黑格子.<br>初始时你在左上角, 你现在要走到右下角去.每次移动你只能移动到相邻格子上去（上下左右, 不能超出图）<br>请问你到达右下角最少需要经过多少个黑格子？</p>
+          <h2 id="黑白格"><a href="#黑白格" class="headerlink" title="黑白格"></a>黑白格</h2><p>题目描述：<br>给一个n*m(n*m &lt;&#x3D; 1e5)的矩阵, 里面的元素为0或1, 0代表白格子, 1代表黑格子.<br>初始时你在左上角, 你现在要走到右下角去.每次移动你只能移动到相邻格子上去（上下左右, 不能超出图）<br>请问你到达右下角最少需要经过多少个黑格子？</p>
 <p>输入</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">5 3</span><br><span class="line">0 1 0</span><br><span class="line">0 1 1</span><br><span class="line">0 1 0</span><br><span class="line">1 0 0</span><br><span class="line">1 0 0</span><br></pre></td></tr></table></figure>
 
@@ -981,89 +1089,6 @@
 <p>epoll主要由三个系统调用组成：</p>
 <p>- </p>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://civilizen.github.io/undefined/2022/11/28/Cpp-STL/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Civilizen">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Civilizen's Blog">
-      <meta itemprop="description" content="Civi's learning path.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Civilizen's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/undefined/2022/11/28/Cpp-STL/" class="post-title-link" itemprop="url">Cpp STL</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-11-28 16:30:40" itemprop="dateCreated datePublished" datetime="2022-11-28T16:30:40+08:00">2022-11-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-11-30 20:52:29" itemprop="dateModified" datetime="2022-11-30T20:52:29+08:00">2022-11-30</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>C++ STL的一些使用笔记</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/undefined/2022/11/28/Cpp-STL/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
