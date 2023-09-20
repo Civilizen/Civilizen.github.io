@@ -449,7 +449,7 @@
 <h2 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h2><p>输入<code>hexo new post &quot;article title&quot;</code>,新建文章,进入<code>source/_posts/</code>文件夹下修改相应的<code>.md</code>文件</p>
 <p>输入<code>hexo g</code>生成静态网页，然后输入<code>hexo s</code>本地预览效果，最后输入<code>hexo d</code>上传到github上</p>
 <h2 id="保存源代码"><a href="#保存源代码" class="headerlink" title="保存源代码"></a>保存源代码</h2><ol>
-<li>创建github仓库(不需要创建readme),并获取到仓库的地址“<a href="mailto:&#103;&#105;&#116;&#x40;&#x67;&#105;&#x74;&#104;&#x75;&#98;&#x2e;&#99;&#x6f;&#x6d;">&#103;&#105;&#116;&#x40;&#x67;&#105;&#x74;&#104;&#x75;&#98;&#x2e;&#99;&#x6f;&#x6d;</a>:xxx&#x2F;blog.git”</li>
+<li>创建github仓库(不需要创建readme),并获取到仓库的地址“<a href="mailto:&#x67;&#105;&#116;&#x40;&#x67;&#105;&#x74;&#104;&#117;&#x62;&#46;&#99;&#111;&#x6d;">&#x67;&#105;&#116;&#x40;&#x67;&#105;&#x74;&#104;&#117;&#x62;&#46;&#99;&#111;&#x6d;</a>:xxx&#x2F;blog.git”</li>
 <li>在当前目录下执行以下命令</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin git@github.com:xxx/matlablearning.git </span><br><span class="line">git branch -b main</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;xxx&quot;</span></span><br><span class="line">git push origin main</span><br></pre></td></tr></table></figure>
@@ -598,11 +598,128 @@
       </tags>
   </entry>
   <entry>
+    <title>SGI-STL的Allocator究竟做了什么？</title>
+    <url>/undefined/2023/09/20/SGI-STL%E7%9A%84Allocator%E7%A9%B6%E7%AB%9F%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F/</url>
+    <content><![CDATA[<h2 id="Allocator-是什么东西？"><a href="#Allocator-是什么东西？" class="headerlink" title="Allocator 是什么东西？"></a>Allocator 是什么东西？</h2><p>当我们在运用STL的容器时，我们很容易地就认为那些容器帮我们管理了一切的内存管理，但事实上，我们是可以运用自己的方式管理我们容器组织内存的方式。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">vector&lt;<span class="type">int</span>&gt; nums; <span class="comment">// 这是我们定义一个vector&lt;int&gt;容器的方法</span></span><br><span class="line"><span class="comment">// 我们知道vector实现了动态数量的增长，那么其中就关系到了其如何申请新的内存空间，并管理他们</span></span><br><span class="line"><span class="comment">// 但其实，默认其实是有相应的模板类负责这块空间的申请和释放</span></span><br><span class="line">vector&lt;<span class="type">int</span>, std::allocator&lt;<span class="type">int</span>&gt;&gt; nums;</span><br></pre></td></tr></table></figure>
+
+<p>通俗点来说，对于STL中的容器，他们所申请需要的内存，都是交付给 Allocator 处理的。</p>
+<p>STL中为 Allocator 定义了一套标准的接口，如果我们实现了这些接口的要求，那么就可以为容器的内存申请和释放定义一套自己的规则。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">vector&lt;<span class="type">int</span>, std::myAlloc&lt;<span class="type">int</span>&gt;&gt; nums; <span class="comment">// Alloc 是自定义的 Allocator</span></span><br></pre></td></tr></table></figure>
+
+<p>Allocator 的一个默认版本，这个版本只是对malloc的简单封装，并没有做特殊的处理，所以是被废弃的，但我们可以根据这个轮廓，修改得到我们想要的Allocator</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 申请空间的函数</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> T* <span class="title">allocate</span><span class="params">(<span class="type">ptrdiff_t</span> size, T*)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">set_new_handler</span>(<span class="number">0</span>);</span><br><span class="line">    T* tmp = (T*)(::<span class="keyword">operator</span> <span class="built_in">new</span>((<span class="type">size_t</span>)(size * <span class="built_in">sizeof</span>(T))));</span><br><span class="line">    <span class="keyword">if</span> (tmp == <span class="number">0</span>) &#123;</span><br><span class="line">    cerr &lt;&lt; <span class="string">&quot;out of memory&quot;</span> &lt;&lt; endl; </span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 释放空间的函数</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">deallocate</span><span class="params">(T* buffer)</span> </span>&#123;</span><br><span class="line">    ::<span class="function"><span class="keyword">operator</span> <span class="title">delete</span><span class="params">(buffer)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// placement new, 然后调用T1的构造函数</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T1</span>,<span class="keyword">class</span> <span class="title class_">T2</span>&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">construct</span><span class="params">(T1* p, <span class="type">const</span> T2&amp; value)</span></span>&#123;</span><br><span class="line">    <span class="keyword">new</span>(p) <span class="built_in">T1</span>(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">destroy</span><span class="params">(T* p)</span></span>&#123;</span><br><span class="line">    p-&gt;~<span class="built_in">T</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">allocator</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 用于获取元素的类型</span></span><br><span class="line">    <span class="keyword">typedef</span> T value_type;</span><br><span class="line">    <span class="keyword">typedef</span> T* pointer;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="type">const</span> T* const_pointer;</span><br><span class="line">    <span class="keyword">typedef</span> T&amp; reference;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="type">const</span> T&amp; const_reference;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="type">size_t</span> size_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="type">ptrdiff_t</span> difference_type;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 嵌套类</span></span><br><span class="line">    <span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">rebind</span>&#123;</span><br><span class="line">        <span class="keyword">typedef</span> allocator&lt;U&gt; other;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 配置空间，让其能够容纳n个T类型的元素</span></span><br><span class="line">    <span class="function">pointer <span class="title">allocate</span><span class="params">(size_type n)</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> ::<span class="built_in">allocate</span>((difference_type)n, (pointer)<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 归还原先配置的空间</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">deallocate</span><span class="params">(pointer p)</span> </span>&#123; ::<span class="built_in">deallocate</span>(p); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回某个对象的地址</span></span><br><span class="line">    <span class="function">pointer <span class="title">address</span><span class="params">(reference x)</span> </span>&#123; <span class="keyword">return</span> (pointer)&amp;x; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回某个常对象的地址</span></span><br><span class="line">    <span class="function">const_pointer <span class="title">const_address</span><span class="params">(const_reference x)</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> (const_pointer)&amp;x; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回可成功配置的最大值</span></span><br><span class="line">    <span class="function">size_type <span class="title">max_size</span><span class="params">()</span> <span class="type">const</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(<span class="built_in">size_type</span>(<span class="number">1</span>), <span class="built_in">size_type</span>(UINT_MAX/<span class="built_in">sizeof</span>(T))); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="对象是如何new出来的？"><a href="#对象是如何new出来的？" class="headerlink" title="对象是如何new出来的？"></a>对象是如何new出来的？</h2><p>当我们申请一个堆上的对象时：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;...&#125;;</span><br><span class="line">A* p = <span class="keyword">new</span> A;</span><br><span class="line"><span class="keyword">delete</span> p;</span><br></pre></td></tr></table></figure>
+
+<p>这里的第三行其实发生了两步行为：</p>
+<ol>
+<li>调用 <code>::operator new</code> 配置内存;</li>
+<li>调用元素的构造函数</li>
+</ol>
+<p>对应到 alloc 的行为，就是调用：</p>
+<ol>
+<li><code>alloc::allocate()</code> 获取内存配置</li>
+<li><code>::construct()</code> 构造对象</li>
+</ol>
+<h2 id="allocator如何做的？"><a href="#allocator如何做的？" class="headerlink" title="allocator如何做的？"></a>allocator如何做的？</h2><p>很容易理解, allocator 可以分为两部分分别看待：</p>
+<ol>
+<li>对象的构造和析构</li>
+<li>对象空间的配置和释放</li>
+</ol>
+<h3 id="对象的构造和析构"><a href="#对象的构造和析构" class="headerlink" title="对象的构造和析构"></a>对象的构造和析构</h3><p>构造的方法很容易理解，就是直接在得到的空间上调用 <code>placement new</code> 后再调用对应的构造函函数。</p>
+<p>而对于对象的析构，alloc进行了一定的优化，他会通过判断元素的类型中是否有trivial destructor。从而采取不同的优化措施。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">TYPE := value_type(T)</span><br><span class="line">IF TYPE has trivial destructor</span><br><span class="line">    什么也不做</span><br><span class="line">ELSE</span><br><span class="line">    通过指针或者对应的迭代器调用析构函数释放空间</span><br></pre></td></tr></table></figure>
+
+<h3 id="内存的配置和释放"><a href="#内存的配置和释放" class="headerlink" title="内存的配置和释放"></a>内存的配置和释放</h3><p>从学习 SGI 的内存管理出发，我们从这里看看大神究竟是怎么做的。</p>
+<h4 id="设计要点"><a href="#设计要点" class="headerlink" title="设计要点"></a>设计要点</h4><ul>
+<li>要向堆请求空间</li>
+<li>考虑多线程竞争（这里忽略这点，但源码是有考虑的）</li>
+<li>需要决定内存不足时的措施</li>
+<li>要优化小碎片带来的问题</li>
+</ul>
+<h4 id="双层配置器"><a href="#双层配置器" class="headerlink" title="双层配置器"></a>双层配置器</h4><p>为了考虑小区块碎片带来的问题，SGI采用了二级配置器的策略。</p>
+<p><strong>第一级配置器</strong> 就是在 <code>::operator new</code> 上调用 C 的 <code>malloc()</code> 函数和<code>free()</code> 函数。</p>
+<p><strong>第二级配置器（可选择关闭）</strong> 则是采用了内存池化的思想来处理内存碎片。</p>
+<ul>
+<li>内存池由malloc()获取得到</li>
+<li>维护16个自由链表，其负责16种小型区块的配置能力</li>
+<li>如果需求块大于128Byte，则转调一级配置器</li>
+<li>如果内存池的空间不足，则转调一级配置器</li>
+</ul>
+<p>内存配置出来以后，为了能够方便使用这些内存，我们需要一些额外的开销来保存这块内存的信息，当内存是特别小的区块时，对每一个这样的区块保存对应的信息将会浪费非常多的空间。</p>
+<img src="/undefined/2023/09/20/SGI-STL%E7%9A%84Allocator%E7%A9%B6%E7%AB%9F%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F/%E5%86%85%E5%AD%98%E5%9D%97.png" class="" title="内存块">
+
+<h2 id="内存池是什么样的？"><a href="#内存池是什么样的？" class="headerlink" title="内存池是什么样的？"></a>内存池是什么样的？</h2><p>如果需求块大于128Byte，则转调一级配置器。当小于128Byte时，则交付给内存池做管理。</p>
+<h3 id="自由链表"><a href="#自由链表" class="headerlink" title="自由链表"></a>自由链表</h3><img src="/undefined/2023/09/20/SGI-STL%E7%9A%84Allocator%E7%A9%B6%E7%AB%9F%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F/%E8%87%AA%E7%94%B1%E9%93%BE%E8%A1%A8.png" class="" title="自由链表">
+
+<p>16个自由链表分别掌管大小为8, 16, 24, … ,120, 128 的小额区块。</p>
+<p>free list 的节点数据结构如下:</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">union</span> <span class="title class_">obj</span>&#123;</span><br><span class="line">    <span class="keyword">union</span> <span class="title class_">obj</span>* free_list_link;</span><br><span class="line">    <span class="type">char</span> client_data[<span class="number">1</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>使用union的好处在于，当你以第一个字段的形式看待这个指针时，它指向的是下一个obj的地址（还未分配给客户，在自由链表中被管理着），当你以第二个字段看待时，那么该指针指向的是实际内存的地址（分配给了客户）。</p>
+<p>每次申请区块大小时，都会向上调整到8的倍数。（申请30Byte，返回32Byte）。</p>
+<p>我们先看看这个二级配置器类的内容有哪些？</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> &#123;_ALIGN = <span class="number">8</span>&#125;;</span><br><span class="line"><span class="keyword">enum</span> &#123;_MAX_BYTES = <span class="number">128</span>&#125;;</span><br><span class="line"><span class="keyword">enum</span> &#123;_NFREELISTS = <span class="number">16</span>&#125;; <span class="comment">// _MAX_BYTES/_ALIGN</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="type">bool</span> threads, <span class="type">int</span> inst&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">__default_alloc_template</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="comment">// 向上取整</span></span><br><span class="line">  <span class="type">static</span> <span class="type">size_t</span> _S_round_up(<span class="type">size_t</span> __bytes)&#123; </span><br><span class="line">    <span class="keyword">return</span> (((__bytes) + (<span class="type">size_t</span>) _ALIGN<span class="number">-1</span>) &amp; ~((<span class="type">size_t</span>) _ALIGN - <span class="number">1</span>)); </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">union</span> <span class="title class_">_Obj</span> &#123; <span class="comment">// free list 结点</span></span><br><span class="line">    <span class="keyword">union</span> <span class="title class_">_Obj</span>* _M_free_list_link;</span><br><span class="line">    <span class="type">char</span> _M_client_data[<span class="number">1</span>];    <span class="comment">/* The client sees this.*/</span></span><br><span class="line">  &#125;;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="type">static</span> _Obj* __STL_VOLATILE _S_free_list[_NFREELISTS]; <span class="comment">// 16 个 free list</span></span><br><span class="line">  <span class="type">static</span> <span class="type">size_t</span> _S_freelist_index(<span class="type">size_t</span> __bytes) &#123; <span class="comment">// 根据申请的块大小，决定用几号链表</span></span><br><span class="line">    <span class="keyword">return</span> (((__bytes) + (<span class="type">size_t</span>)_ALIGN<span class="number">-1</span>)/(<span class="type">size_t</span>)_ALIGN - <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// Returns an object of size __n, and optionally adds to size __n free list.</span></span><br><span class="line">  <span class="function"><span class="type">static</span> <span class="type">void</span>* <span class="title">refill</span><span class="params">(<span class="type">size_t</span> __n)</span></span>;</span><br><span class="line">  <span class="comment">// Allocates a chunk for nobjs of size size.  nobjs may be reduced</span></span><br><span class="line">  <span class="comment">// if it is inconvenient to allocate the requested number.</span></span><br><span class="line">  <span class="function"><span class="type">static</span> <span class="type">char</span>* <span class="title">chunk_alloc</span><span class="params">(<span class="type">size_t</span> __size, <span class="type">int</span>&amp; __nobjs)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Chunk allocation state.</span></span><br><span class="line">  <span class="type">static</span> <span class="type">char</span>* _S_start_free; <span class="comment">// 内存池起始位置</span></span><br><span class="line">  <span class="type">static</span> <span class="type">char</span>* _S_end_free; <span class="comment">// 内存池结束位置</span></span><br><span class="line">  <span class="type">static</span> <span class="type">size_t</span> _S_heap_size;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="comment">/* __n must be &gt; 0      */</span></span><br><span class="line">  <span class="function"><span class="type">static</span> <span class="type">void</span>* <span class="title">allocate</span><span class="params">(<span class="type">size_t</span> __n)</span></span>&#123;...&#125;</span><br><span class="line">  <span class="comment">/* __p may not be 0 */</span></span><br><span class="line">  <span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">deallocate</span><span class="params">(<span class="type">void</span>* __p, <span class="type">size_t</span> __n)</span></span>&#123;...&#125;</span><br><span class="line">  <span class="function"><span class="type">static</span> <span class="type">void</span>* <span class="title">reallocate</span><span class="params">(<span class="type">void</span>* __p, <span class="type">size_t</span> __old_sz, <span class="type">size_t</span> __new_sz)</span></span>;</span><br><span class="line">&#125; ;</span><br></pre></td></tr></table></figure>
+
+<h3 id="deallocate-如何回收管理区块？"><a href="#deallocate-如何回收管理区块？" class="headerlink" title="deallocate()如何回收管理区块？"></a>deallocate()如何回收管理区块？</h3><ol>
+<li>判断要求的区块有没有大于128字节，如果大于128字节就交给一级配置器来干，然后直接返回</li>
+<li>找到想要区块对应的free list指针，判断是否有可用的区块，如果有就将区块返回，然后调整free list，返回</li>
+<li>因为没有足够的区块可以返回，调用refill()函数填充free list</li>
+<li>调整free list，返回结果</li>
+</ol>
+<h3 id="allocate-如何配置出区块？"><a href="#allocate-如何配置出区块？" class="headerlink" title="allocate()如何配置出区块？"></a>allocate()如何配置出区块？</h3><p>这里很好理解，如果返回的区块大于128,则调用一级配置器处理。如果小于128，则找到相应的free list,采用头插法的方式将区块放回。</p>
+<h3 id="refill-如何填充free-list"><a href="#refill-如何填充free-list" class="headerlink" title="refill()如何填充free list?"></a>refill()如何填充free list?</h3><ol>
+<li>向内存池中申请（通过chunk_alloc()函数完成）20个对应区块大小的新结点（如果内存池中不含有那么多，则可能获得的区块小于20个）</li>
+<li>如果获取的区块为1，则将这个区块返回给客户, 然后return</li>
+<li>将剩余的区块放入到free list中，调整free list指针。</li>
+</ol>
+<h3 id="chunk-alloc-如何从内存池中取给free-list用？"><a href="#chunk-alloc-如何从内存池中取给free-list用？" class="headerlink" title="chunk_alloc()如何从内存池中取给free list用？"></a>chunk_alloc()如何从内存池中取给free list用？</h3><ol>
+<li>计算内存池的剩余空间和申请需要的总字节数</li>
+<li>剩余空间完全满足申请的需求，调整内存池记录的起始地址和末尾地址。然后返回空间。return</li>
+<li>剩余空间大于等于1个区块的大小，返回剩下最多能给的区块数量给调用者，return</li>
+<li>剩余内存空间不够给，先把剩下的内存池空间分配给合适的free list,用尽所有的内存池空间</li>
+<li>申请一块新的内存池空间（调整start_pos），大小为2倍请求的空间 + 随着申请内存池空间次数越多越大的附加值</li>
+<li>申请内存成功的话，返回区块给调用者</li>
+<li><strong>如果申请内存失败，看看free_list中还有没有比区块大小更大的free list上有空闲的区块，如果有，则把大于这个区块大小中的第一个链表中的第一个区块调整成内存池的剩余量，然后递归调用chunk_alloc()生成需要的块。</strong></li>
+<li>山穷水尽了，交给第一级配置器吧！！！！out-of-memory机制来点作用吧！它应该会做些什么来补救（调用new_handler看看能不能回收一些内存，不行的话就抛出异常。）</li>
+</ol>
+<h4 id="这上面最难理解的就是第七条，下面用个例子解释是如何做的。"><a href="#这上面最难理解的就是第七条，下面用个例子解释是如何做的。" class="headerlink" title="这上面最难理解的就是第七条，下面用个例子解释是如何做的。"></a>这上面最难理解的就是第七条，下面用个例子解释是如何做的。</h4><p>比如现在要申请区块大小为16的区块，目前free list上还剩的区块有（24：2个，64：1个）。且无法再申请新的内存了。要从free list中找点区块来用。</p>
+<p>那么他根据规则，会找到区块大小为24的free list，取出第一个块，把内存池的起始地址设置为这个区块大小为24的起始地址，末尾地址设置为这个24区块大小。然后重新递归调用chunk_alloc()。</p>
+<p>递归调用chunk_alloc()的行为就会变成流程中的第三步。最后的结果就是内存池最终剩下（24-16）&#x3D; 8字节的大小，返回了一个16大小的区块给客户。</p>
+<p>最后，贴一张书中的图，感受一下内存的某一瞬状态。</p>
+<img src="/undefined/2023/09/20/SGI-STL%E7%9A%84Allocator%E7%A9%B6%E7%AB%9F%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F/%E5%86%85%E5%AD%98%E6%B1%A0%E6%9F%90%E4%B8%80%E6%97%B6%E5%88%BB%E7%8A%B6%E6%80%81.png" class="" title="内存池某一时刻状态">
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>question</title>
     <url>/undefined/2023/01/12/question/</url>
     <content><![CDATA[<h2 id="如何区别大小端机器码？"><a href="#如何区别大小端机器码？" class="headerlink" title="如何区别大小端机器码？"></a>如何区别大小端机器码？</h2><p>对于一个32位字0x1234567, 在小端存储中，高序字节是放在内的低地址，而在大端存储中，高序字节是存放在内存的高地址。具体的描述可以看下图。</p>
 
 <!-- ![实例](BbigSmallStroe.gif) -->
+]]></content>
+  </entry>
+  <entry>
+    <title>关于Http的那些问题</title>
+    <url>/undefined/2023/09/18/%E5%85%B3%E4%BA%8EHttp%E7%9A%84%E9%82%A3%E4%BA%9B%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>git 工具中 merge 的三种形式分别是什么，有什么特点</p>
+<p>智能指针 shared_from_this</p>
+<p>自动推导 auto decltype decltypeval()</p>
+<p>幂等性是怎么保证的、http中如何判断是否启用缓存、modify字段的服务端处理逻辑是怎么样的？状态码是怎么处理的</p>
+<p>RESTful</p>
+<p>multipart&#x2F;form-data</p>
+<p>如何保证用同样密钥的两个客户端不能解析相互的数据包</p>
+<p>Lambda表达式捕获列表有哪些种类，如何在类成员函数中定义的Lambda中调用其他成员函数？</p>
+<p>正则表达式 “.+” 和 “.+?”的区别</p>
+<p>char* strcpy(char* dest,char* src){</p>
+<p>}</p>
 ]]></content>
   </entry>
   <entry>
