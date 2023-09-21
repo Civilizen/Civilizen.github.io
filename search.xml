@@ -449,7 +449,7 @@
 <h2 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h2><p>输入<code>hexo new post &quot;article title&quot;</code>,新建文章,进入<code>source/_posts/</code>文件夹下修改相应的<code>.md</code>文件</p>
 <p>输入<code>hexo g</code>生成静态网页，然后输入<code>hexo s</code>本地预览效果，最后输入<code>hexo d</code>上传到github上</p>
 <h2 id="保存源代码"><a href="#保存源代码" class="headerlink" title="保存源代码"></a>保存源代码</h2><ol>
-<li>创建github仓库(不需要创建readme),并获取到仓库的地址“<a href="mailto:&#x67;&#x69;&#x74;&#64;&#103;&#x69;&#116;&#x68;&#x75;&#98;&#46;&#99;&#x6f;&#109;">&#x67;&#x69;&#x74;&#64;&#103;&#x69;&#116;&#x68;&#x75;&#98;&#46;&#99;&#x6f;&#109;</a>:xxx&#x2F;blog.git”</li>
+<li>创建github仓库(不需要创建readme),并获取到仓库的地址“<a href="mailto:&#x67;&#105;&#116;&#64;&#103;&#x69;&#116;&#x68;&#x75;&#x62;&#46;&#99;&#111;&#109;">&#x67;&#105;&#116;&#64;&#103;&#x69;&#116;&#x68;&#x75;&#x62;&#46;&#99;&#111;&#109;</a>:xxx&#x2F;blog.git”</li>
 <li>在当前目录下执行以下命令</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin git@github.com:xxx/matlablearning.git </span><br><span class="line">git branch -b main</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;xxx&quot;</span></span><br><span class="line">git push origin main</span><br></pre></td></tr></table></figure>
@@ -685,7 +685,7 @@
 <li><strong>如果申请内存失败，看看free_list中还有没有比区块大小更大的free list上有空闲的区块，如果有，则把大于这个区块大小中的第一个链表中的第一个区块调整成内存池的剩余量，然后递归调用chunk_alloc()生成需要的块。</strong></li>
 <li>山穷水尽了，交给第一级配置器吧！！！！out-of-memory机制来点作用吧！它应该会做些什么来补救（调用new_handler看看能不能回收一些内存，不行的话就抛出异常。）</li>
 </ol>
-<h4 id="这上面最难理解的就是第七条，下面用个例子解释是如何做的。"><a href="#这上面最难理解的就是第七条，下面用个例子解释是如何做的。" class="headerlink" title="这上面最难理解的就是第七条，下面用个例子解释是如何做的。"></a>这上面最难理解的就是第七条，下面用个例子解释是如何做的。</h4><p>比如现在要申请区块大小为16的区块，目前free list上还剩的区块有（24：2个，64：1个）。且无法再申请新的内存了。要从free list中找点区块来用。</p>
+<h4 id="这上面最难理解的就是第七条，下面用个例子解释是如何做的"><a href="#这上面最难理解的就是第七条，下面用个例子解释是如何做的" class="headerlink" title="这上面最难理解的就是第七条，下面用个例子解释是如何做的"></a>这上面最难理解的就是第七条，下面用个例子解释是如何做的</h4><p>比如现在要申请区块大小为16的区块，目前free list上还剩的区块有（24：2个，64：1个）。且无法再申请新的内存了。要从free list中找点区块来用。</p>
 <p>那么他根据规则，会找到区块大小为24的free list，取出第一个块，把内存池的起始地址设置为这个区块大小为24的起始地址，末尾地址设置为这个24区块大小。然后重新递归调用chunk_alloc()。</p>
 <p>递归调用chunk_alloc()的行为就会变成流程中的第三步。最后的结果就是内存池最终剩下（24-16）&#x3D; 8字节的大小，返回了一个16大小的区块给客户。</p>
 <p>最后，贴一张书中的图，感受一下内存的某一瞬状态。</p>
@@ -693,9 +693,71 @@
 ]]></content>
       <categories>
         <category>C++</category>
+        <category>STL</category>
       </categories>
       <tags>
         <tag>C++</tag>
+        <tag>STL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>STL中的traits是什么？</title>
+    <url>/undefined/2023/09/21/STL%E4%B8%AD%E7%9A%84traits%E6%98%AF%E4%BB%80%E4%B9%88/</url>
+    <content><![CDATA[<h2 id="我们拥有的类型推导方式"><a href="#我们拥有的类型推导方式" class="headerlink" title="我们拥有的类型推导方式"></a>我们拥有的类型推导方式</h2><p>关于类型推导，使用 C++ 的语法规则，我们很容易想到的方式有两种，其中一种是借助于 trait 泛型编程，采用模板的特点来获取我们需要的类型。</p>
+<p>另外一种方式，则是使用 C++11 所提供的类型自动推导机制: auto 和 decltype.</p>
+<p>那么这两者是如何达到获取类型的目的的呢？</p>
+<h2 id="Trait-泛型编程"><a href="#Trait-泛型编程" class="headerlink" title="Trait 泛型编程"></a>Trait 泛型编程</h2><p>在分析STL源码的过程中，我们知道迭代器（一种智能指针）是用来获取容器中存着的元素的。其中迭代器中会有一个变量，为value type,它代表着迭代器所指对象的类型。</p>
+<p>那么如何获取迭代器所指对象的类型呢？比如，我们现在需要声明一个变量，他的类型和迭代器所指对象的类型是一致的。</p>
+<p>可以使用<strong>模板的参数推导</strong>机制：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">class</span> I, <span class="keyword">class</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func_imp</span><span class="params">(I iter, T t)</span> </span>&#123;</span><br><span class="line">    T tmp; <span class="comment">// 这里就是那个需要声明的变量</span></span><br><span class="line">    <span class="comment">// 这里才是对该变量的具体操作</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">class</span> I&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">func</span><span class="params">(I iter)</span></span>&#123;</span><br><span class="line">    <span class="built_in">func_imp</span>(iter, *iter);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> i; <span class="comment">// 假设这是迭代器</span></span><br><span class="line">    <span class="built_in">func</span>(&amp;i); <span class="comment">// 声明一个与i类型相同的变量，并执行相应的操作</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的方式可以让我们声明出一个与i类型相同的变量来使用，但是有一种场景：假设我现在需要设计一个函数，其返回值是与i类型相同的，那么模板推导就不能直接用了，因为没法作为参数传入模板。</p>
+<p>那么，我们可以采取第二种方式：声明一个<strong>内嵌的类型</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">MyIter</span>&#123;</span><br><span class="line">    <span class="keyword">typedef</span> T value_type; <span class="comment">// 内嵌一个类型声明</span></span><br><span class="line">    T *ptr;</span><br><span class="line">    <span class="built_in">MyIter</span>(T* p=<span class="number">0</span>):<span class="built_in">ptr</span>(p)&#123;&#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">typename</span> I::value_type <span class="comment">//这里就是我们的需求，返回类型与迭代器的内嵌声明类型相同</span></span><br><span class="line"><span class="built_in">func</span>(I iter)&#123;</span><br><span class="line">    <span class="keyword">return</span> *iter</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看起来，确实已经解决了上面的问题，但是，这个自定义的迭代器存在一个问题，并不是所有的迭代器都有内嵌类型（因为不是所有的类型都是 “类类型”）</p>
+<p>比如，我们需要T是一个指针类型，指针类型就不是一个类，不存在自己的内嵌类型。</p>
+<p>那么，我们就需要使用到模板的偏特化，对类的实例化进行特殊处理。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 之前获取类型T，我们采取如下的方法</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span>&#123;...&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如今我们需要指针类型，可以这么做</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span>&lt;T*&gt;&#123;...&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这样看，没办法写内嵌类型的类型其实还有很多种，比如“<code>int*, const int*,...</code>”, 这时候trait的作用就出来了，把这类提取类型的工作全部封装起来，达到获取类型的目的</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">I</span>&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">iterator_traits</span>&#123;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> I::value_type value_type;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">iterator_traits</span>&lt;T*&gt;&#123; <span class="comment">// 偏特化版本-迭代器指向的是一个指针</span></span><br><span class="line">    <span class="keyword">typedef</span> T value_type; <span class="comment">// 萃取出原生的类型</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面这种提取指针指向原始变量的方式，会出现一种不符合现实的状况：</p>
+<figure class="highlight plaintext"><figcaption><span>int*>::value_type``` 会返const int, 使用这个value_type 来定义变量会把变量变为const，可能会造成意想不到的结果，所以我们还可以设计一个新的萃取版本：</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">```cpp</span><br><span class="line">template&lt;class T&gt;</span><br><span class="line">class iterator_traits&lt;const T*&gt;&#123; // 偏特化版本-迭代器指向的是一个指针</span><br><span class="line">    typedef T value_type; // 萃取出原生的类型</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至此，我们可以理解trait究竟是做什么工作的了：给他传入一个迭代器，然后在选择其支持的萃取类型，获得这个迭代器中指向的需要类型。</p>
+<img src="/undefined/2023/09/21/STL%E4%B8%AD%E7%9A%84traits%E6%98%AF%E4%BB%80%E4%B9%88/trait%E8%90%83%E5%8F%96%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%B1%BB%E5%9E%8B.png" class="" title="trait萃取迭代器类型">
+
+<p>提供的萃取类型有5种：</p>
+<ul>
+<li>value_type: 所指对象的类型</li>
+<li>difference_type: 两个迭代器之间的距离</li>
+<li>pointer: 迭代器所指指针类型</li>
+<li>reference: 迭代器所指引用类型</li>
+<li>iterator_category: 迭代器的策略类型，对应着不同的迭代器类型</li>
+</ul>
+<p>上面的这五种类型中，我们需要关注pointer 和 reference 的区别：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">I</span>&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">iterator_traits</span>&#123;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> I::pointer pointer;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> I::reference reference;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">iterator_traits</span>&lt;T*&gt;&#123;</span><br><span class="line">    <span class="keyword">typedef</span> T* pointer; </span><br><span class="line">    <span class="keyword">typedef</span> T&amp; reference; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">iterator_traits</span>&lt;<span class="type">const</span> T*&gt;&#123;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="type">const</span> T* pointer; </span><br><span class="line">    <span class="keyword">typedef</span> <span class="type">const</span> T&amp; reference; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此外，在迭代器的函数中(如advance())中，我们需要知道迭代器的类型是哪一种，从而选取不同的重载函数执行操作。</p>
+<p>迭代器的类型：</p>
+<ul>
+<li>输入迭代器</li>
+<li>输出迭代器</li>
+<li>单向迭代器</li>
+<li>双向迭代器</li>
+<li>随机访问迭代器</li>
+</ul>
+<p>iterator_category 就是返回该迭代器具体是什么类型的，然后传入给具体的函数(如advance())。</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+        <category>STL</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>STL</tag>
       </tags>
   </entry>
   <entry>

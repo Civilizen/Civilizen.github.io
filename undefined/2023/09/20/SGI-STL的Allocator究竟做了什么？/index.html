@@ -33,9 +33,10 @@
 <meta property="og:image" content="https://civilizen.github.io/undefined/2023/09/20/SGI-STL%E7%9A%84Allocator%E7%A9%B6%E7%AB%9F%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F/%E8%87%AA%E7%94%B1%E9%93%BE%E8%A1%A8.png">
 <meta property="og:image" content="https://civilizen.github.io/undefined/2023/09/20/SGI-STL%E7%9A%84Allocator%E7%A9%B6%E7%AB%9F%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F/%E5%86%85%E5%AD%98%E6%B1%A0%E6%9F%90%E4%B8%80%E6%97%B6%E5%88%BB%E7%8A%B6%E6%80%81.png">
 <meta property="article:published_time" content="2023-09-20T11:34:27.000Z">
-<meta property="article:modified_time" content="2023-09-20T14:04:44.591Z">
+<meta property="article:modified_time" content="2023-09-21T03:17:31.295Z">
 <meta property="article:author" content="Civilizen">
 <meta property="article:tag" content="C++">
+<meta property="article:tag" content="STL">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://civilizen.github.io/undefined/2023/09/20/SGI-STL%E7%9A%84Allocator%E7%A9%B6%E7%AB%9F%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F/%E5%86%85%E5%AD%98%E5%9D%97.png">
 
@@ -146,7 +147,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Allocator-%E6%98%AF%E4%BB%80%E4%B9%88%E4%B8%9C%E8%A5%BF%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">Allocator 是什么东西？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%A6%82%E4%BD%95new%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">对象是如何new出来的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#allocator%E5%A6%82%E4%BD%95%E5%81%9A%E7%9A%84%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">allocator如何做的？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%9E%84%E9%80%A0%E5%92%8C%E6%9E%90%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">对象的构造和析构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%9A%84%E9%85%8D%E7%BD%AE%E5%92%8C%E9%87%8A%E6%94%BE"><span class="nav-number">3.2.</span> <span class="nav-text">内存的配置和释放</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E8%A6%81%E7%82%B9"><span class="nav-number">3.2.1.</span> <span class="nav-text">设计要点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8C%E5%B1%82%E9%85%8D%E7%BD%AE%E5%99%A8"><span class="nav-number">3.2.2.</span> <span class="nav-text">双层配置器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%B1%A0%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">内存池是什么样的？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E7%94%B1%E9%93%BE%E8%A1%A8"><span class="nav-number">4.1.</span> <span class="nav-text">自由链表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deallocate-%E5%A6%82%E4%BD%95%E5%9B%9E%E6%94%B6%E7%AE%A1%E7%90%86%E5%8C%BA%E5%9D%97%EF%BC%9F"><span class="nav-number">4.2.</span> <span class="nav-text">deallocate()如何回收管理区块？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#allocate-%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E5%87%BA%E5%8C%BA%E5%9D%97%EF%BC%9F"><span class="nav-number">4.3.</span> <span class="nav-text">allocate()如何配置出区块？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#refill-%E5%A6%82%E4%BD%95%E5%A1%AB%E5%85%85free-list"><span class="nav-number">4.4.</span> <span class="nav-text">refill()如何填充free list?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chunk-alloc-%E5%A6%82%E4%BD%95%E4%BB%8E%E5%86%85%E5%AD%98%E6%B1%A0%E4%B8%AD%E5%8F%96%E7%BB%99free-list%E7%94%A8%EF%BC%9F"><span class="nav-number">4.5.</span> <span class="nav-text">chunk_alloc()如何从内存池中取给free list用？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%99%E4%B8%8A%E9%9D%A2%E6%9C%80%E9%9A%BE%E7%90%86%E8%A7%A3%E7%9A%84%E5%B0%B1%E6%98%AF%E7%AC%AC%E4%B8%83%E6%9D%A1%EF%BC%8C%E4%B8%8B%E9%9D%A2%E7%94%A8%E4%B8%AA%E4%BE%8B%E5%AD%90%E8%A7%A3%E9%87%8A%E6%98%AF%E5%A6%82%E4%BD%95%E5%81%9A%E7%9A%84%E3%80%82"><span class="nav-number">4.5.1.</span> <span class="nav-text">这上面最难理解的就是第七条，下面用个例子解释是如何做的。</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Allocator-%E6%98%AF%E4%BB%80%E4%B9%88%E4%B8%9C%E8%A5%BF%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">Allocator 是什么东西？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%A6%82%E4%BD%95new%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">对象是如何new出来的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#allocator%E5%A6%82%E4%BD%95%E5%81%9A%E7%9A%84%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">allocator如何做的？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%9E%84%E9%80%A0%E5%92%8C%E6%9E%90%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">对象的构造和析构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%9A%84%E9%85%8D%E7%BD%AE%E5%92%8C%E9%87%8A%E6%94%BE"><span class="nav-number">3.2.</span> <span class="nav-text">内存的配置和释放</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E8%A6%81%E7%82%B9"><span class="nav-number">3.2.1.</span> <span class="nav-text">设计要点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8C%E5%B1%82%E9%85%8D%E7%BD%AE%E5%99%A8"><span class="nav-number">3.2.2.</span> <span class="nav-text">双层配置器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%B1%A0%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">内存池是什么样的？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E7%94%B1%E9%93%BE%E8%A1%A8"><span class="nav-number">4.1.</span> <span class="nav-text">自由链表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deallocate-%E5%A6%82%E4%BD%95%E5%9B%9E%E6%94%B6%E7%AE%A1%E7%90%86%E5%8C%BA%E5%9D%97%EF%BC%9F"><span class="nav-number">4.2.</span> <span class="nav-text">deallocate()如何回收管理区块？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#allocate-%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E5%87%BA%E5%8C%BA%E5%9D%97%EF%BC%9F"><span class="nav-number">4.3.</span> <span class="nav-text">allocate()如何配置出区块？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#refill-%E5%A6%82%E4%BD%95%E5%A1%AB%E5%85%85free-list"><span class="nav-number">4.4.</span> <span class="nav-text">refill()如何填充free list?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chunk-alloc-%E5%A6%82%E4%BD%95%E4%BB%8E%E5%86%85%E5%AD%98%E6%B1%A0%E4%B8%AD%E5%8F%96%E7%BB%99free-list%E7%94%A8%EF%BC%9F"><span class="nav-number">4.5.</span> <span class="nav-text">chunk_alloc()如何从内存池中取给free list用？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%99%E4%B8%8A%E9%9D%A2%E6%9C%80%E9%9A%BE%E7%90%86%E8%A7%A3%E7%9A%84%E5%B0%B1%E6%98%AF%E7%AC%AC%E4%B8%83%E6%9D%A1%EF%BC%8C%E4%B8%8B%E9%9D%A2%E7%94%A8%E4%B8%AA%E4%BE%8B%E5%AD%90%E8%A7%A3%E9%87%8A%E6%98%AF%E5%A6%82%E4%BD%95%E5%81%9A%E7%9A%84"><span class="nav-number">4.5.1.</span> <span class="nav-text">这上面最难理解的就是第七条，下面用个例子解释是如何做的</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -159,18 +160,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -230,9 +231,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-09-20 19:34:27 / 修改时间：22:04:44" itemprop="dateCreated datePublished" datetime="2023-09-20T19:34:27+08:00">2023-09-20</time>
+      <time title="创建时间：2023-09-20 19:34:27" itemprop="dateCreated datePublished" datetime="2023-09-20T19:34:27+08:00">2023-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-09-21 11:17:31" itemprop="dateModified" datetime="2023-09-21T11:17:31+08:00">2023-09-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -241,6 +248,10 @@
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/C/STL/" itemprop="url" rel="index"><span itemprop="name">STL</span></a>
         </span>
     </span>
 
@@ -345,7 +356,7 @@
 <li><strong>如果申请内存失败，看看free_list中还有没有比区块大小更大的free list上有空闲的区块，如果有，则把大于这个区块大小中的第一个链表中的第一个区块调整成内存池的剩余量，然后递归调用chunk_alloc()生成需要的块。</strong></li>
 <li>山穷水尽了，交给第一级配置器吧！！！！out-of-memory机制来点作用吧！它应该会做些什么来补救（调用new_handler看看能不能回收一些内存，不行的话就抛出异常。）</li>
 </ol>
-<h4 id="这上面最难理解的就是第七条，下面用个例子解释是如何做的。"><a href="#这上面最难理解的就是第七条，下面用个例子解释是如何做的。" class="headerlink" title="这上面最难理解的就是第七条，下面用个例子解释是如何做的。"></a>这上面最难理解的就是第七条，下面用个例子解释是如何做的。</h4><p>比如现在要申请区块大小为16的区块，目前free list上还剩的区块有（24：2个，64：1个）。且无法再申请新的内存了。要从free list中找点区块来用。</p>
+<h4 id="这上面最难理解的就是第七条，下面用个例子解释是如何做的"><a href="#这上面最难理解的就是第七条，下面用个例子解释是如何做的" class="headerlink" title="这上面最难理解的就是第七条，下面用个例子解释是如何做的"></a>这上面最难理解的就是第七条，下面用个例子解释是如何做的</h4><p>比如现在要申请区块大小为16的区块，目前free list上还剩的区块有（24：2个，64：1个）。且无法再申请新的内存了。要从free list中找点区块来用。</p>
 <p>那么他根据规则，会找到区块大小为24的free list，取出第一个块，把内存池的起始地址设置为这个区块大小为24的起始地址，末尾地址设置为这个24区块大小。然后重新递归调用chunk_alloc()。</p>
 <p>递归调用chunk_alloc()的行为就会变成流程中的第三步。最后的结果就是内存池最终剩下（24-16）&#x3D; 8字节的大小，返回了一个16大小的区块给客户。</p>
 <p>最后，贴一张书中的图，感受一下内存的某一瞬状态。</p>
@@ -360,6 +371,7 @@
     <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+              <a href="/tags/STL/" rel="tag"><i class="fa fa-tag"></i> STL</a>
           </div>
 
         
